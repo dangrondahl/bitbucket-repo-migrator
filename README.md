@@ -5,9 +5,12 @@ This small repository allows to migrate a Git repository from one Bitbucket inst
 This is done by mirroring the original repository, thereby replicating its state.
 By state, we mean all tags and branches.
 
-The script will first check if the destination repository already exists.
-If so, the script will exit to avoid overwriting the existing repository.
-Otherwise, the script will create it as part of the migration.
+The script will first check if you have open Pull Requests in the original Bitbucket repository.
+If so, it will fail early as Bitbucket won't allow mirroring Pull Request ref/heads.
+
+Then the script checks if the destination repository already exists.
+If so, it will fail to avoid overwriting the existing repository.
+Otherwise, it will create the repository as part of the migration.
 
 ## Usage
 

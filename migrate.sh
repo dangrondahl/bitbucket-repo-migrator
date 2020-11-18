@@ -66,6 +66,17 @@ cleanUp() {
   cd .. && rm -rf "${srcRepo}.git"
 }
 
+checkOpenPullRequests() {
+  openPullRequests=$(curl -u "${srcCreds}" --silent -X GET "https://${srcHost}/rest/api/1.0/projects/${srcProject}/repos/${srcRepo}/pull-requests" | sed -n 's|.*"size":*\([^"]*\),.*|\1|p')
+
+  if [ "$openPullRequests" != "0" ]; then
+    echo >&2 "[ERROR]: You still have open Pull Requests in your source repository"
+    exit 1
+  fi
+}
+
+checkOpenPullRequests
+
 if repoAlreadyExists; then
   echo >&2 "[ERROR]: The repository already exists here: https://${destHost}/${destPath}"
   exit 1
